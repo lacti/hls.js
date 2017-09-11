@@ -8,3 +8,6 @@ npm-debug.log
 coverage/
 # ignore JetBrains
 .idea/*
+
+# demo
+demo/sample

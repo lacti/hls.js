@@ -412,6 +412,9 @@ class PlaylistLoader extends EventHandler {
                 decrypturi = keyAttrs.URI,
                 decryptiv = keyAttrs.hexadecimalInteger('IV');
             if (decryptmethod) {
+              if (this.hls && this.hls.config && this.hls.config.decrypturiSetup) {
+                decrypturi = this.hls.config.decrypturiSetup(decrypturi);
+              }
               levelkey = new LevelKey();
               if ((decrypturi) && (['AES-128', 'SAMPLE-AES'].indexOf(decryptmethod) >= 0)) {
                 levelkey.method = decryptmethod;

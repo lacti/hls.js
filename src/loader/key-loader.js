@@ -14,6 +14,10 @@ class KeyLoader extends EventHandler {
     this.loaders = {};
     this.decryptkey = null;
     this.decrypturl = null;
+    
+    if (hls.config && hls.config.keySetup) {
+      this.keySetup = hls.config.keySetup;
+    }
   }
 
   destroy() {
@@ -59,7 +63,12 @@ class KeyLoader extends EventHandler {
 
   loadsuccess(response, stats, context) {
     let frag = context.frag;
-    this.decryptkey = frag.decryptdata.key = new Uint8Array(response.data);
+    const keySetup = this.keySetup;
+    let data = new Uint8Array(response.data);
+    if (keySetup) {
+      data = keySetup(data);
+    }
+    this.decryptkey = frag.decryptdata.key = data;
     // detach fragment loader on load success
     frag.loader = undefined;
     this.loaders[frag.type] = undefined;

@@ -10,6 +10,9 @@ class XhrLoader {
     if (config && config.xhrSetup) {
       this.xhrSetup = config.xhrSetup;
     }
+    if (config && config.urlSetup) {
+      this.urlSetup = config.urlSetup;
+    }
   }
 
   destroy() {
@@ -51,7 +54,11 @@ class XhrLoader {
     stats.tfirst = 0;
     stats.loaded = 0;
     const xhrSetup = this.xhrSetup;
+    const urlSetup = this.urlSetup;
 
+    if (urlSetup) {
+      context.url = urlSetup(context.url);
+    }
     try {
       if (xhrSetup) {
         try {
